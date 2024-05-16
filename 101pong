@@ -1,0 +1,75 @@
+#!/usr/bin/python3
+import sys
+import math
+
+#error handling
+
+num = len(sys.argv)
+if num > 8:
+    print("ERROR: Incorrect number of arguments")
+    exit(84)
+elif num > 2 and num < 8:
+    print("ERROR: Incorrect number of arguments")
+    exit(84)
+if num == 2:
+    if sys.argv[1] == "-h":
+        print("USAGE\n    ./101pong x0 y0 z0 x1 y1 z1 n\n")
+        print("DESCRIPTION\n    x0  ball abscissa at time t - 1")
+        print("    y0  ball ordinate at time t - 1")
+        print("    z0  ball altitude at time t - 1")
+        print("    x1  ball ordinate at time t")
+        print("    y1  ball ordinate at time t")
+        print("    z1  ball altitude at time t")
+        print("    n   time shift (greater than or equal to zero, integer)")
+    else:
+        print("ERROR: invalid argument")
+        exit(84)
+if num == 8:
+    if int(sys.argv[7]) < 0:
+        print("ERROR: time can't be negative")
+        exit(84)
+
+#velocity
+
+x0 = sys.argv[1]
+y0 = sys.argv[2]
+z0 = sys.argv[3]
+x1 = sys.argv[4]
+y1 = sys.argv[5]
+z1 = sys.argv[6]
+n = sys.argv[7]
+
+x0 =float(x0)
+y0 =float(y0)
+z0 = float(z0)
+x1 = float(x1)
+y1 = float(y1)
+z1 = float(z1)
+n = float(n)
+
+vx = (x1 - x0)
+vy = (y1 - y0)
+vz = (z1 - z0)
+
+print ("The velocity vector of the ball is:")
+print(f"({round(vx, 2):.2f}, {round(vy, 2):.2f}, {round(vz, 2):.2f})")
+
+#time & coordinates
+
+fx = ((vx * n) + x1)
+fy = ((vy * n) + y1)
+fz = ((vz * n) + z1)
+
+print (f"At time t + {n}, ball coordinates will be:")
+print(f"({round(fx, 2):.2f}, {round(fy, 2):.2f}, {round(fz,2):.2f})")
+#angle
+check = vz * z1
+
+if (check < 0):
+    angle = math.atan((math.sqrt(vz * vz)) / (math.sqrt((vx * vx) + (vy * vy))))
+    angle = math.degrees(angle)
+
+    print ("The incidence angle is:")
+    print("%.2f" % round(angle, 2), "degrees")
+else:
+    print("The ball won't reach the paddle.")
